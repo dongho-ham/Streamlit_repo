@@ -2,16 +2,17 @@
 import streamlit as st
 import sys
 import os
-from tabs import tab1 as tab1_module
-from tabs import tab2 as tab2_module
-from tabs import tab3 as tab3_module
-from tabs import tab4 as tab4_module
-from tabs import tab5 as tab5_module
 
 # 현재 폴더를 Python 경로에 추가
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
+
+from tabs import tab1 as tab1_module
+from tabs import tab2 as tab2_module
+from tabs import tab3 as tab3_module
+from tabs import tab4 as tab4_module
+from tabs import tab5 as tab5_module
 
 # Page config
 st.set_page_config(
