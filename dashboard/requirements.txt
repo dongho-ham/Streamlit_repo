@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+plotly
+boto3
+scikit-learn
+scipy
+shap
+boto3
