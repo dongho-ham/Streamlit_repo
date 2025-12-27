@@ -17,19 +17,22 @@ def download_from_s3():
     
     # 이미 다운로드되어 있으면 스킵
     if local_dir.exists() and any(local_dir.iterdir()):
+        st.write("✅ 데이터 이미 다운로드됨")
         return
     
-    local_dir.mkdir(exist_ok=True)
+    st.write("📥 S3에서 데이터 다운로드 중...")
+    local_dir.mkdir(parents=True, exist_ok=True)
     
     # AWS credentials from Streamlit Secrets
     s3 = boto3.client(
         's3',
         aws_access_key_id=st.secrets["AWS_ACCESS_KEY_ID"],
         aws_secret_access_key=st.secrets["AWS_SECRET_ACCESS_KEY"],
-        region_name=st.secrets.get("AWS_REGION", "us-east-1")
+        region_name=st.secrets.get("AWS_REGION", "ap-northeast-2")
     )
     
     # S3에서 모든 파일 다운로드
+    file_count = 0
     paginator = s3.get_paginator('list_objects_v2')
     for page in paginator.paginate(Bucket=S3_BUCKET, Prefix=S3_PREFIX):
         for obj in page.get('Contents', []):
@@ -39,6 +42,9 @@ def download_from_s3():
             local_path = local_dir / s3_key.replace(S3_PREFIX, '')
             local_path.parent.mkdir(parents=True, exist_ok=True)
             s3.download_file(S3_BUCKET, s3_key, str(local_path))
+            file_count += 1
+    
+    st.write(f"✅ {file_count}개 파일 다운로드 완료")
 
 # 앱 시작 시 S3에서 데이터 다운로드
 download_from_s3()
