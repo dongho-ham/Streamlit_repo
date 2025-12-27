@@ -63,6 +63,7 @@ def load_discharge_summary():
 def load_feature_importance(battery_id, preprocessing):
     """Feature Importance 데이터 로드"""
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
     
     if preprocessing == "LOWESS":
         filename = f'lof_{battery_id}_feature_importance_lowess.csv'
@@ -78,8 +79,8 @@ def load_feature_importance(battery_id, preprocessing):
 
 def load_anomaly_results(battery_id, model_type, preprocessing):
     """Anomaly Transformer 결과 로드"""
-
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
 
     if model_type != "Anomaly Transformer":
         return None
@@ -100,6 +101,7 @@ def load_anomaly_results(battery_id, model_type, preprocessing):
 def load_shap_data(battery_id, preprocessing):
     """SHAP 분석 데이터 로드"""
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
     
     if preprocessing == "LOWESS":
         shap_file = f'shap_values_{battery_id}_lowess.npy'
@@ -123,6 +125,8 @@ def load_shap_data(battery_id, preprocessing):
 def load_lof_cycle_summary(battery_id, preprocessing):
     """LOF 사이클 요약 데이터 로드"""
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
+
     suffix = "_lowess" if preprocessing == "LOWESS" else ""
     df = pd.read_csv(os.path.join(base_dir, f'dataset/tab2/lof_{battery_id}_cycle_summary{suffix}.csv'))
     
@@ -134,6 +138,8 @@ def load_lof_cycle_summary(battery_id, preprocessing):
 def load_hi_analysis(battery_id, preprocessing):
     """HI 변동성 분석 데이터 로드"""
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
+
     suffix = "_lowess" if preprocessing == "LOWESS" else ""
     val_test_df = pd.read_csv(os.path.join(base_dir, f'dataset/tab4/{battery_id}_hi_analysis{suffix}.csv'))
 
@@ -145,6 +151,8 @@ def load_hi_analysis(battery_id, preprocessing):
 def load_correlation_data(battery_id, model_type, preprocessing):
     """Correlation 분석 데이터 로드"""
     base_dir = get_base_dir()
+    battery_id = battery_id.lower()
+    
     model_name = "at" if model_type == "Anomaly Transformer" else "lof"
     suffix = "_lowess" if preprocessing == "LOWESS" else ""
     
