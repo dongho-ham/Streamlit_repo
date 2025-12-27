@@ -15,10 +15,10 @@ def download_from_s3():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     local_dir = Path(base_dir) / "dataset"
     
-    # 이미 다운로드되어 있으면 스킵
-    if local_dir.exists() and any(local_dir.iterdir()):
-        st.write("✅ 데이터 이미 다운로드됨")
-        return
+    # 특정 파일로 완전한 다운로드 확인
+    check_file = local_dir / "discharge_summary.csv"
+    if check_file.exists():
+        return  # 이미 다운로드됨
     
     st.write("📥 S3에서 데이터 다운로드 중...")
     local_dir.mkdir(parents=True, exist_ok=True)
@@ -37,7 +37,7 @@ def download_from_s3():
     for page in paginator.paginate(Bucket=S3_BUCKET, Prefix=S3_PREFIX):
         for obj in page.get('Contents', []):
             s3_key = obj['Key']
-            if s3_key == S3_PREFIX:  # 폴더 자체는 스킵
+            if s3_key.endswith('/'):  # 폴더는 스킵
                 continue
             local_path = local_dir / s3_key.replace(S3_PREFIX, '')
             local_path.parent.mkdir(parents=True, exist_ok=True)
