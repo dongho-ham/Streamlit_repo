@@ -12,7 +12,8 @@ S3_PREFIX = "dataset/"  # S3에 업로드한 경로
 
 def download_from_s3():
     """S3에서 dataset 폴더 전체 다운로드 (최초 1회만)"""
-    local_dir = Path("dataset")
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    local_dir = Path(base_dir) / "dataset"
     
     # 이미 다운로드되어 있으면 스킵
     if local_dir.exists() and any(local_dir.iterdir()):
@@ -33,6 +34,8 @@ def download_from_s3():
     for page in paginator.paginate(Bucket=S3_BUCKET, Prefix=S3_PREFIX):
         for obj in page.get('Contents', []):
             s3_key = obj['Key']
+            if s3_key == S3_PREFIX:  # 폴더 자체는 스킵
+                continue
             local_path = local_dir / s3_key.replace(S3_PREFIX, '')
             local_path.parent.mkdir(parents=True, exist_ok=True)
             s3.download_file(S3_BUCKET, s3_key, str(local_path))
