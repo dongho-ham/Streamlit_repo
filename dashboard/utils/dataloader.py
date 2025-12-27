@@ -121,40 +121,39 @@ def load_shap_data(battery_id, preprocessing):
         raise FileNotFoundError(f"SHAP 데이터를 찾을 수 없습니다: {e}") from e
     
 def load_lof_cycle_summary(battery_id, preprocessing):
-       """LOF 사이클 요약 데이터 로드"""
-       suffix = "_lowess" if preprocessing == "LOWESS" else ""
-       df = pd.read_csv(f'dataset/tab2/lof_{battery_id}_cycle_summary{suffix}.csv')
-       
-       with open(f'dataset/tab2/lof_{battery_id}_metadata{suffix}.json') as f:
-           metadata = json.load(f)
-       
-       return df, metadata['threshold']
+    """LOF 사이클 요약 데이터 로드"""
+    base_dir = get_base_dir()
+    suffix = "_lowess" if preprocessing == "LOWESS" else ""
+    df = pd.read_csv(os.path.join(base_dir, f'dataset/tab2/lof_{battery_id}_cycle_summary{suffix}.csv'))
+    
+    with open(os.path.join(base_dir, f'dataset/tab2/lof_{battery_id}_metadata{suffix}.json')) as f:
+        metadata = json.load(f)
+    
+    return df, metadata['threshold']
 
 def load_hi_analysis(battery_id, preprocessing):
     """HI 변동성 분석 데이터 로드"""
-    import json
-    
+    base_dir = get_base_dir()
     suffix = "_lowess" if preprocessing == "LOWESS" else ""
-    val_test_df = pd.read_csv(f'dataset/tab4/{battery_id}_hi_analysis{suffix}.csv')
+    val_test_df = pd.read_csv(os.path.join(base_dir, f'dataset/tab4/{battery_id}_hi_analysis{suffix}.csv'))
 
-    with open(f'dataset/tab4/{battery_id}_hi_metadata{suffix}.json') as f:
+    with open(os.path.join(base_dir, f'dataset/tab4/{battery_id}_hi_metadata{suffix}.json')) as f:
         metadata = json.load(f)
     
     return val_test_df, metadata
 
 def load_correlation_data(battery_id, model_type, preprocessing):
     """Correlation 분석 데이터 로드"""
-    import json
-    
+    base_dir = get_base_dir()
     model_name = "at" if model_type == "Anomaly Transformer" else "lof"
     suffix = "_lowess" if preprocessing == "LOWESS" else ""
     
-    df_merged = pd.read_csv(f'dataset/tab5/{battery_id}_correlation_{model_name}{suffix}.csv')
+    df_merged = pd.read_csv(os.path.join(base_dir, f'dataset/tab5/{battery_id}_correlation_{model_name}{suffix}.csv'))
 
     if 'cycle_idx' in df_merged.columns:
         df_merged = df_merged.rename(columns={'cycle_idx': 'cycle'})
 
-    with open(f'dataset/tab5/{battery_id}_correlation_metadata_{model_name}{suffix}.json') as f:
+    with open(os.path.join(base_dir, f'dataset/tab5/{battery_id}_correlation_metadata_{model_name}{suffix}.json')) as f:
         metadata = json.load(f)
     
     return df_merged, metadata
