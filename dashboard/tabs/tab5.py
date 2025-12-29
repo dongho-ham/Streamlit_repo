@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from utils.dataloader import load_correlation_data
+from utils.dataloader_local import load_correlation_data
 
 def render(battery_id, model_type, preprocessing):
     st.subheader("Correlation Analysis")
@@ -15,23 +15,6 @@ def render(battery_id, model_type, preprocessing):
     p_p_cap = metadata['p_p_cap']
     pearson_rohm = metadata['pearson_rohm']
     p_p_rohm = metadata['p_p_rohm']
-    
-    # 상관계수 요약
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric(
-            "Capacity Correlation", 
-            f"{pearson_cap:.3f}",
-            delta=f"p={p_p_cap:.2e}"
-        )
-    with col2:
-        st.metric(
-            "R_ohmic Correlation", 
-            f"{pearson_rohm:.3f}",
-            delta=f"p={p_p_rohm:.2e}"
-        )
-    
-    st.markdown("---")
     
     # 2x2 서브플롯 생성
     fig = make_subplots(
