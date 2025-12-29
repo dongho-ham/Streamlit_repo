@@ -54,10 +54,10 @@ def get_base_dir():
     # data_loader.py 위치 기준으로 상위 폴더 (dashboard/)
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def load_discharge_summary():
+def load_discharge_summary(battery_id):
     """방전 요약 데이터 로드"""
     base_dir = get_base_dir()
-    file_path = os.path.join(base_dir, 'dataset', 'discharge_summary.csv')
+    file_path = os.path.join(base_dir, 'dataset', f'discharge_summary_{battery_id}.csv')
     return pd.read_csv(file_path)
 
 def load_feature_importance(battery_id, preprocessing):

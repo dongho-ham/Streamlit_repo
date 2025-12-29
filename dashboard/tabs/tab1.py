@@ -5,15 +5,9 @@ from utils.dataloader import load_discharge_summary
 
 
 def render(battery_id):
-    discharge_summary = load_discharge_summary()
+    discharge_summary = load_discharge_summary(battery_id)
     
-    # if-elif로 배터리 ID별 제목 표시
-    if battery_id == "B0005":
-        st.subheader("B0005 Battery Overview")
-    elif battery_id == "B0006":
-        st.subheader("B0006 Battery Overview")
-    else:
-        st.subheader("B0007 Battery Overview")
+    st.subheader(f"{battery_id} Battery Overview")
     
     fig = make_subplots(
         rows=2, cols=2,
