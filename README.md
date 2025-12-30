@@ -9,23 +9,25 @@ streamlit run main.py
 
 ## 기술 스택
 
-- Python 3.9+
+- Python 3.13+
 - Streamlit
-- PyTorch
 - Pandas, NumPy
 - Scipy (LOWESS smoothing)
 - Plotly/Matplotlib
 
 ## 프로젝트 구조
 ```
-├── app.py                      # Streamlit 메인 앱
-├── modules/
-│   ├── data_loader.py         # 데이터 로드 모듈
-│   ├── preprocessing.py       # LOWESS smoothing 전처리
-│   ├── visualization.py       # 시각화 함수
-│   └── anomaly_detection.py   # 이상 탐지 로직
-├── dataset/                       # NASA PCoE 데이터셋
-├── main.py
+├── utils
+│   ├── __init__.py
+│   ├── dataloader.py # S3 데이터 호출                 
+├── tabs/
+│   ├── tab1.py       # Data Overview
+│   ├── tab2.py       # Anomaly Scores
+│   ├── tab3.py       # Feature importance
+│   ├── tab4.py       # Health Indicato
+|   ├── tab5.py       # Correlation Analysis
+├── requirements.txt                      
+├── main.py           # Streamlit 메인 앱
 └── README.md
 ```
 
