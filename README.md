@@ -50,4 +50,4 @@ streamlit run main.py
 **NASA PCoE Battery Dataset**
 - 출처: NASA Prognostics Center of Excellence
 - 구성: 리튬이온 배터리 충방전 사이클 데이터
-- 측정 항목: Voltage, Current, Temperature, Capacity
+- 측정 항목: Voltage, Current, Temperature, Capacity 등
